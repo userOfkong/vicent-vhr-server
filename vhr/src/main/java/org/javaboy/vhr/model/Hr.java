@@ -1,6 +1,12 @@
 package org.javaboy.vhr.model;
 
-public class Hr {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+
+public class Hr implements UserDetails {
     private Integer id;
 
     private String name;
@@ -60,10 +66,10 @@ public class Hr {
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
     }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
+//只能有一个返回enabled方法
+//    public Boolean getEnabled() {
+//        return enabled;
+//    }
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
@@ -73,8 +79,33 @@ public class Hr {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public String getPassword() {
